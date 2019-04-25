@@ -508,39 +508,100 @@ df.groupby(['City_Category','Age']).Purchase.mean()
 
 # 6.0 Is there any relationship between City_Category and Age?
 #     Ref: https://machinelearningmastery.com/chi-squared-test-for-machine-learning/
-#from scipy.stats import chi2_contingency
+from scipy.stats import chi2_contingency
+test_df=pd.crosstab(df.City_Category,df.Age)
+chi2_contingency(test_df)
+# =============================================================================
+# (21658.51596036734,
+#  0.0,
+#  12,
+#  array([[ 3956.997911  , 26268.95587423, 57763.50591636, 28923.18749128,
+#          11979.96117393, 10121.32640347,  5624.06522973],
+#         [ 6196.38219455, 41135.3490979 , 90453.61347305, 45291.69031971,
+#          18759.781981  , 15849.28982081,  8806.89311299],
+#         [ 4553.61989445, 30229.69502788, 66472.88061059, 33284.12218901,
+#          13786.25684507, 11647.38377572,  6472.04165729]]))
+# 
+# =============================================================================
+
+
 
 # 6.1  How confident would you want to be about the existence of any relationship?
 #      95% or 90% or 99%......
-# =============================================================================
-# confidence_level = 0.95         # 95% confident
-# level_of_significance = 1- confidence_level
-# 
-# =============================================================================
+confidence_level = 0.95         # 95% confident
+level_of_significance = 1- confidence_level
+
 # 6.2 Create a cross-table between two categorical variables
+table = pd.crosstab(df.City_Category,df.Age)
+table
 # =============================================================================
-# table = pd.crosstab(df.City_Category,df.Age)
-# table
-# 
+# Age            0-17  18-25  26-35  36-45  46-50  51-55    55+
+# City_Category                                                
+# A              2497  27025  72048  26142   7467   5969   3490
+# B              5288  42470  89767  46605  19900  17435   5028
+# C              6922  28139  52875  34752  17159  14214  12385
 # =============================================================================
+
 
 # 6.3 Apply chi-square test of independence and get p_value
 #_, p_value, _, _ = chi2_contingency(table)
 
+chi2,p,dof,expected=chi2_contingency(table)
+print("P value: ", p)
+print("Chi2 score: ", chi2)
+print("dof value: ", dof)
+print("expected values: ", expected)
+# =============================================================================
+# P value:  0.0
+# Chi2 score:  21658.51596036734
+# dof value:  12
+# expected values:  [[ 3956.997911   26268.95587423 57763.50591636 28923.18749128
+#   11979.96117393 10121.32640347  5624.06522973]
+#  [ 6196.38219455 41135.3490979  90453.61347305 45291.69031971
+#   18759.781981   15849.28982081  8806.89311299]
+#  [ 4553.61989445 30229.69502788 66472.88061059 33284.12218901
+#   13786.25684507 11647.38377572  6472.04165729]]
+# =============================================================================
+
+
 
 # 6.4 Now examine p_value
-# =============================================================================
-# if p_value <= level_of_significance:
-# 	print("Categorical variables have relationships")
-# else:
-# 	print("Categorical variables have no relationships")
-# 
-# =============================================================================
+if p <= level_of_significance:
+	print("Categorical variables have relationships")
+else:
+	print("Categorical variables have no relationships")
+
 
 # 7.0 Similarly examine if there is any relationship between Age and Occupation?
+table = pd.crosstab(df.Occupation,df.Age)
+table
+chi2,p,dof,expected=chi2_contingency(table)
+print("P value: ", p)
+print("Chi2 score: ", chi2)
+print("dof value: ", dof)
+#print("expected values: ", expected)
+# =============================================================================
+# P value:  0.0
+# Chi2 score:  581712.9936323236
+# dof value:  120
+# =============================================================================
+
 
 
 # 7.1 And also examine if there is any Gender  and Marital_Status?
+table = pd.crosstab(df.Marital_Status,df.Gender)
+table
+chi2,p,dof,expected=chi2_contingency(table)
+print("P value: ", p)
+print("Chi2 score: ", chi2)
+print("dof value: ", dof)
+#print("expected values: ", expected)
+# =============================================================================
+# P value:  2.8078724890395355e-14
+# Chi2 score:  57.86465518457894
+# dof value:  1
+# =============================================================================
+
 
 
 ######################
