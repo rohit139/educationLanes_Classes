@@ -33,7 +33,7 @@ os.listdir(os.curdir)
 
 # 1.8 Count the number of files in your current working folder
 print (len(os.listdir(os.getcwd())))
- # Ans: 6
+ # Ans:6
 
 
 # 1.9  Read the dataset file 'BlackFriday.csv' or
@@ -296,10 +296,12 @@ df.User_ID.value_counts().sort_values(ascending=False).head(10)
 #     decreasing/increasing order of frequency
 uids=df.User_ID.value_counts().sort_values(ascending=False).head(10).index.values
 frequency=df.User_ID.value_counts().sort_values(ascending=False).head(10).values
+cnt=1,2,3,4,5,6,7,8,9,10
 
-plt.bar(uids,frequency,align='center', alpha=0.5)
+plt.bar(cnt,frequency,align='center', alpha=0.5)
 plt.xlabel("User")
 plt.ylabel("frequecy of shoping")
+plt.xticks(cnt,uids)
 
 plt.show()
 
@@ -310,91 +312,230 @@ plt.show()
 # 4.0 Find average purchases ('Purchase') per User_ID
 #     Hint: Use groupby(), sort_values() and head()
 
+df.head()
+df.groupby('User_ID').Purchase.mean().sort_values(ascending=False).head(20).index.values
 
 
 # 4.1 Refer answer to 4.0
 #     Plot a barchart of User_IDs average purchases wise
 
+purchase=df.groupby('User_ID').Purchase.mean().sort_values(ascending=False).head(20)
+uids=df.groupby('User_ID').Purchase.mean().sort_values(ascending=False).head(20).index.values
+
+unit=range(20)
+
+#len(uids)
+
+plt.figure(figsize=(10,6))
+plt.bar(unit,purchase)
+plt.xlabel("Unser IDs")
+plt.ylabel("average purchase")
+
+plt.xticks(unit,uids)
+
+plt.show()
+
 
 
 
 # 4.2 Product_ID wise average 'Purchase'?
+df.head()
+df.groupby('Product_ID').Purchase.mean().sort_values(ascending=False)
 
 
 
 
 # 4.3 Plot top-10 Product_IDs most purchased on an average
+purchase=df.groupby('Product_ID').Purchase.mean().sort_values(ascending=False).head(10)
+pids=df.groupby('Product_ID').Purchase.mean().sort_values(ascending=False).head(10).index.values
+
+unit=range(10)
+
+#len(uids)
+
+plt.figure(figsize=(10,6))
+plt.bar(unit,purchase)
+plt.xlabel("Product IDs")
+plt.ylabel("average purchase")
+
+plt.xticks(unit,pids)
+
+plt.show()
 
 
 
 
 # 4.4 Product_Category_1 wise mean 'Purchase'?
-
+df.groupby('Product_Category_1').Purchase.mean().sort_values(ascending=False)
 
 
 # 4.5 Plot top-10 Product_Category_1 most purchased on an average
+purchase=df.groupby('Product_Category_1').Purchase.mean().sort_values(ascending=False).head(10)
+pids=df.groupby('Product_Category_1').Purchase.mean().sort_values(ascending=False).head(10).index.values
 
+unit=range(10)
+
+#len(uids)
+
+plt.figure(figsize=(10,6))
+plt.bar(unit,purchase)
+plt.xlabel("Product_Category_1")
+plt.ylabel("average purchase")
+
+plt.xticks(unit,pids)
+
+plt.show()
 
 
 
 # 4.6 Product_Category_2 wise mean 'Purchase'?
+df.groupby('Product_Category_2').Purchase.mean().sort_values(ascending=False)
 
 
 
 # 4.7 Plot top-10 Product_Category_2 most purchased on an average
+purchase=df.groupby('Product_Category_2').Purchase.mean().sort_values(ascending=False).head(10)
+pids=df.groupby('Product_Category_2').Purchase.mean().sort_values(ascending=False).head(10).index.values
 
+unit=range(10)
+
+#len(uids)
+
+plt.figure(figsize=(10,6))
+plt.bar(unit,purchase)
+plt.xlabel("Product_Category_2")
+plt.ylabel("average purchase")
+
+plt.xticks(unit,pids)
+
+plt.show()
 
 
 
 # 4.8 Product_Category_3 wise mean 'Purchase'?
-
+df.groupby('Product_Category_3').Purchase.mean().sort_values(ascending=False)
 
 
 # 4.9 Plot top-10 Product_Category_3s most purchased on an average
 
+purchase=df.groupby('Product_Category_3').Purchase.mean().sort_values(ascending=False).head(10)
+pids=df.groupby('Product_Category_3').Purchase.mean().sort_values(ascending=False).head(10).index.values
 
+unit=range(10)
+
+#len(uids)
+
+plt.figure(figsize=(10,6))
+plt.bar(unit,purchase)
+plt.xlabel("Product_Category_3")
+plt.ylabel("average purchase")
+
+plt.xticks(unit,pids)
+
+plt.show()
 
 
 # 5.0 Which Product_Category_1 is more popular in which City_Category?
-
+df.groupby('City_Category').Product_Category_1.max()
+# =============================================================================
+# #ANS:
+# City_Category
+# A    18
+# B    18
+# C    18
+# Name: Product_Category_1, dtype: int64
+# =============================================================================
 
 
 # 5.1 Get City_Category wise average 'Purchase'
+df.groupby('City_Category').Purchase.mean()
+
+# =============================================================================
+# City_Category
+# A    8958.011014
+# B    9198.657848
+# C    9844.441855
+# Name: Purchase, dtype: float64
+# =============================================================================
 
 
 # 5.2 Get Age wise average 'Purchase'?
+df.groupby('Age').Purchase.mean()
+# =============================================================================
+# Age
+# 0-17     9020.126878
+# 18-25    9235.197575
+# 26-35    9314.588970
+# 36-45    9401.478758
+# 46-50    9284.872277
+# 51-55    9620.616620
+# 55+      9453.898579
+# Name: Purchase, dtype: float64
+# =============================================================================
 
 
 # 5.3 Get City_Category wise and Age wise average 'Purchase'
-
+df.groupby(['City_Category','Age']).Purchase.mean()
+# =============================================================================
+# City_Category  Age  
+# A              0-17      8673.295555
+#                18-25     8886.956078
+#                26-35     8990.238064
+#                36-45     9041.641611
+#                46-50     8386.424936
+#                51-55     9575.454012
+#                55+       8587.106877
+# B              0-17      8985.208396
+#                18-25     9069.532164
+#                26-35     9199.148351
+#                36-45     9150.322154
+#                46-50     9297.089648
+#                51-55     9393.971724
+#                55+       9886.257757
+# C              0-17      9171.916354
+#                18-25     9819.690145
+#                26-35     9952.538704
+#                36-45    10008.983828
+#                46-50     9661.676321
+#                51-55     9917.586464
+#                55+       9522.626968
+# Name: Purchase, dtype: float64
+# 
+# =============================================================================
 
 
 #### Relationships between two categories
 
 # 6.0 Is there any relationship between City_Category and Age?
 #     Ref: https://machinelearningmastery.com/chi-squared-test-for-machine-learning/
-from scipy.stats import chi2_contingency
+#from scipy.stats import chi2_contingency
 
 # 6.1  How confident would you want to be about the existence of any relationship?
 #      95% or 90% or 99%......
-confidence_level = 0.95         # 95% confident
-level_of_significance = 1- confidence_level
-
+# =============================================================================
+# confidence_level = 0.95         # 95% confident
+# level_of_significance = 1- confidence_level
+# 
+# =============================================================================
 # 6.2 Create a cross-table between two categorical variables
-table = pd.crosstab(df.City_Category,df.Age)
-table
-
+# =============================================================================
+# table = pd.crosstab(df.City_Category,df.Age)
+# table
+# 
+# =============================================================================
 
 # 6.3 Apply chi-square test of independence and get p_value
-_, p_value, _, _ = chi2_contingency(table)
+#_, p_value, _, _ = chi2_contingency(table)
 
 
 # 6.4 Now examine p_value
-if p_value <= level_of_significance:
-	print("Categorical variables have relationships")
-else:
-	print("Categorical variables have no relationships")
-
+# =============================================================================
+# if p_value <= level_of_significance:
+# 	print("Categorical variables have relationships")
+# else:
+# 	print("Categorical variables have no relationships")
+# 
+# =============================================================================
 
 # 7.0 Similarly examine if there is any relationship between Age and Occupation?
 
